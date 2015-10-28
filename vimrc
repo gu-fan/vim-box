@@ -45,7 +45,7 @@ Plug '~/Dropbox/vim-box/dev/ui.vim'
 " Unmanaged plugin (manually installed and updated)
 
 " Add plugins to &runtimepath
-" Plug 'tomasr/molokai'
+Plug 'tomasr/molokai'
 
 " Plug 'sjl/gundo.vim'
 
