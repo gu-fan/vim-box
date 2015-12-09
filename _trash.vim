@@ -13,8 +13,10 @@ function! s:Ack(args) "{{{
 endfunction "}}}
 command! -nargs=* -complete=file Ack call <SID>Ack(<q-args>)
 
-
-
+" session
+let g:session_autosave = 'yes'
+let g:session_autosave_periodic = '30'
+let g:session_default_to_last = 1
 
 "{{{3 F5 Execute
 nno <silent> <C-F5> :ccl<CR>
@@ -297,3 +299,47 @@ nor <Leader>ve :setl ve=<c-r>= &ve=='' ? 'block' : &ve=='block' ? 'all' : ''  <C
 command! -nargs=0 FesDoc Start! sh ~/momo/doc/bridge_doc/deploy
 command! -nargs=0 FesDeploy Start! sh ~/Dropbox/Riv/Script/fes_deploy
 command! -nargs=0 Server Start server
+
+" git
+let g:gist_use_password_in_gitconfig = 1
+
+nmap <localleader>vf :e ~/.config/fish/config.fish<CR>
+nmap <localleader>ff :Unite -start-insert -auto-preview -auto-highlight line<CR>
+nmap <silent><Leader>gg :Unite -silent -auto-preview -winheight=40 -no-quit grep<CR><CR><CR>
+
+let g:session_autoload = 'no'
+
+let g:riv_web_browser = 'Firefox'
+
+command! -nargs=0 -bar LastUpdate call LastUpdate()
+function! LastUpdate() "{{{
+    let rx_str_upd='\%(Change\|Update\|Updated\|Modified\|Revision\)'
+    for i in range(1,40)
+        let line = getline(i)
+        if line =~# rx_str_upd
+            let nline = substitute(line, '\(^.*'.rx_str_upd.':\s*\).\{-}\([''"]\|$\)',
+                        \ '\1'.strftime("%Y-%m-%d_%H:%M:%S").'\2', '')
+            if line != nline
+                keepmarks keepjumps call setline(i, nline)
+            endif
+            return
+
+        endif
+    endfor
+endfunction "}}}
+
+" ?? 
+nnoremap <silent> <C-F3> :redir @a<CR>:g//<CR>:redir END<CR>:new<CR>:put! a<CR>
+
+nnoremap gE :e <cfile><CR>
+nnoremap ,gk :Start! git add . && git commit -m '-' && git pull && git push<CR>
+
+
+let g:jsx_indent_required = 0
+
+" remove pre/suf whitespace ?
+vmap <silent> ;h :s?^\(\s*\) + '\([^']\+\)',*\s*$?\1\2?g<CR>
+vmap <silent> ;q :s?^\(\s*\)\(.*\)]s*$?\1+'\2'?<CR>
+
+command! -nargs=0 New RivScratchCreate
+command! -nargs=0 View RivScratchView

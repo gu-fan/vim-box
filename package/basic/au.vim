@@ -19,24 +19,26 @@ aug END
 "}}}
 aug au_Vimrc "{{{
     au!
-    au SourcePre ~/Dropbox/dotfiles/.vimrc redraw | echohl WarningMsg
-                \|echom "Reloading .vimrc"|echohl Normal
-    au BufWritePre,FileWritePre ~/Dropbox/dotfiles/.vimrc  LastUpdate
-    au BufWritePost,FileWritePost ~/Dropbox/dotfiles/.vimrc redraw
-                \|echohl WarningMsg
-                \|echom "Writing .vimrc"|echohl Normal
-                \|so $MYVIMRC|normal '.zv
+    " au SourcePre ~/Dropbox/dotfiles/.vimrc redraw | echohl WarningMsg
+    "             \|echom "Reloading .vimrc"|echohl Normal
+    " au BufWritePre,FileWritePre ~/Dropbox/dotfiles/.vimrc  LastUpdate
+    " au BufWritePost,FileWritePost ~/Dropbox/dotfiles/.vimrc redraw
+    "             \|echohl WarningMsg
+    "             \|echom "Writing .vimrc"|echohl Normal
+    "             \|so $MYVIMRC|normal '.zv
     " load vimrc after load any session.
-    au SessionLoadPost * so ~/.vimrc
+    " au SessionLoadPost * so ~/.vimrc
     " avoid using function while redefine it.
-    au BufRead */.vimrc map <buffer> <F5> :silent so %<CR>
+    " au BufRead */.vimrc map <buffer> <F5> :silent so %<CR>
 aug END "}}}
 aug au_Buffer "{{{
-    au! 
+    au!
     au BufEnter,BufNew,BufReadPost * silent! lcd %:p:h:gs/ /\\ /
+    au BufEnter,BufNew,BufReadPost * silent! exec 'setl sua+=.'.expand('<afile>:e')
+
     " to the line when file last opened
     au BufReadPost * if line("'\"") && line("'\"") <= line("$") | exe  "normal! g`\"" | endif
-aug END "}}} 
+aug END "}}}
 
 aug au_Filetypes "{{{
     au!
@@ -64,6 +66,8 @@ aug au_Filetypes "{{{
     au FileType vim setl isk+=:
     au FileType html cal <SID>check_ft()
     " au FileType rst syn spell toplevel
+    "
+    au FileType javascript cal <SID>set_path()
 aug END "}}}
 
 aug au_Dev "{{{
@@ -102,7 +106,7 @@ endfunction "}}}
 function! s:js_fold() "{{{
     setl foldmethod=syntax
     syn region foldBraces start=/{/ skip=#/\%([^/]\|\/\)*/\|'[^']*'\|"[^"]*"#
-                \ end=/}/ transparent fold keepend extend 
+                \ end=/}/ transparent fold keepend extend
 endfunction "}}}
 " }}}
 
@@ -132,5 +136,64 @@ augroup shebang_chmod
         \   unlet b:chmod_post |
         \ endif
 augroup END
-
 " }}}
+
+fu! s:getparent(item)
+	let parent = substitute(a:item, '[\/][^\/]\+[\/:]\?$', '', '')
+	if parent == '' || parent !~ '[\/]'
+		let parent .= '/'
+	en
+	retu parent
+endf
+
+
+fun! s:set_path()
+
+    let markers = ['.git', '.hg', '.svn', '.bzr', '_darcs', 'package.json']
+    " setl path =
+    let root =  s:findroot(getcwd(), markers, 0)
+
+    setl path+=/usr/local/lib/node_modules
+    if !empty(root)
+        exec "setl path+=".root[1]
+        exec "setl path+=".root[1].'/node_modules'
+    endif
+
+    setl includeexpr=join([v:fname,'index.js'],'/')
+    
+endfun
+
+
+fu! s:findroot(curr, mark, depth)
+	let [depth, fnd] = [a:depth + 1, 0]
+	if type(a:mark) == 1
+		let fnd = s:glbpath(s:fnesc(a:curr, 'g', ','), a:mark, 1) != ''
+	elsei type(a:mark) == 3
+		for markr in a:mark
+			if s:glbpath(s:fnesc(a:curr, 'g', ','), markr, 1) != ''
+				let fnd = 1
+				brea
+			en
+		endfo
+	en
+	if fnd
+		retu [exists('markr') ? markr : a:mark, a:curr]
+	elsei depth > 10
+        echo '>10'
+	el
+		let parent = s:getparent(a:curr)
+		if parent != a:curr
+			retu s:findroot(parent, a:mark, depth)
+		en
+	en
+	retu []
+endf
+
+fu! s:glbpath(...)
+	retu call('ctrlp#utils#globpath', a:000)
+endf
+
+fu! s:fnesc(...)
+	retu call('ctrlp#utils#fnesc', a:000)
+endf
+

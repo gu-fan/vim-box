@@ -1,6 +1,7 @@
-com! CopyName let @+ = expand('%:p:t')
-com! CopyPath let @+ = expand('%:p:h')
-com! CopyFull let @+ = expand('%:p')|echo 'PATH:'.@+
+Debug 'cmd'
+
+com! Copy let @+ = expand('%:p')|echo 'PATH:'.@+
+com! Trail %s#\s\+$##g
 
 function! s:delete(name) "{{{
     let f = a:name
@@ -20,7 +21,6 @@ function! s:rename(name) "{{{
 endfunction "}}}
 com! -nargs=0 Delete call <SID>delete(expand("%:p"))
 com! -nargs=1 Rename call <SID>rename(<q-args>)
-
 
 fun! s:glob_edit(...) "{{{
     let ext = 'php'

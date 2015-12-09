@@ -1,4 +1,7 @@
 " let g:debug = false
+" TODO
+"
+" use redir to log to files.
 function! s:debug(message, sfile, slnum) abort
 
     if exists('g:debug') 
@@ -19,6 +22,6 @@ function! s:assert(expr, qexpr, sfile, slnum) abort
 
 endfunction
 
-com! -nargs=1 Debug call s:debug(<args>, expand('<sfile>'), expand('<slnum>'))
-com! -nargs=1 Assert call s:assert(<args>, <q-args>, expand('<sfile>'), expand('<slnum>'))
-
+com! -nargs=* Debug call s:debug(<args>, expand('<sfile>'), expand('<slnum>'))
+com! -nargs=* Assert call s:assert(<args>, <q-args>, expand('<sfile>'), expand('<slnum>'))
+" com! -nargs=0 Log redir @">

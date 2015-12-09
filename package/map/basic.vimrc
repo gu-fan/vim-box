@@ -4,18 +4,28 @@ Require fn
 Require fold
 Require search
 
+Require mswin
 
-" input
-se noimd
+nmap <leader>vv :e ~/Dropbox/vim-box/vimrc<CR>
+
+" with input method "{{{ 1
+se imd
 se ims=1
-se ve=block
+se noimc
+se imi=2
 
+nmap ： :
+
+
+"{{{ 1
 cmap w!! w !sudo tee % >/dev/null<CR>:e!<CR><CR>
+noremap <C-CR> gJ
 
 nor <Leader>li :setl list! list?<CR>
 
 set nonu nornu
 nor <leader>nn :setl <c-r>=&rnu?'nornu':&nu?'nonu':'rnu'<CR><CR>
+nno <silent><leader>dd :exec &diff ? 'diffoff' : 'diffthis'<CR>
 
 " Clear screen
 nno   <silent>   <c-l>   :let @/=''\|redraw!<CR>
@@ -59,29 +69,23 @@ nor <rightmouse><rightmouse> <c-o>
 nor <rightrelease><leftrelease> <c-o>
 ino <rightrelease><leftrelease> <c-o><c-o>
 
-" Undo/Redo
-nor <C-Z>       uzv
-ino <C-Z>       <C-O>u<C-O>zv
-vno <C-Z>       <Nop>
 
-nor <C-Y>       <C-R>zv
-ino <C-Y>       <C-O><C-R><C-O>zv
-vno <C-Y>       <Nop>
 
 " Window
 nno <silent><C-W>1 :resize<cr>
 nno <silent><C-W>2 :vert resize<cr>
 nno <silent><C-W>3 <C-W>=
-nno <silent><C-W>o <C-W><c-o>
 
 nno <C-W>n <C-W>w
 nno <C-W>N <C-W>n
-
+" smarter opening files. 
+" TODO
+" should replace with click.vim
 fun! s:edit_file(ask)
     let file = expand('<cfile>')
     let ptn ='\v(%(file|https=|ftp|gopher)://|%(mailto|news):)([0-9a-zA-Z#&?._-~/]*)'
     let links = matchlist(file,ptn)
-    if !empty(links) 
+    if !empty(links)
         if links[1] =~ 'file'
             let file = links[2]
         else
@@ -98,7 +102,7 @@ fun! s:edit_file(ask)
         return
     endif
 
-    " find the file match with <cfile>.ext 
+    " find the file match with <cfile>.ext
     if file !~ '^\s*$'
         let files = split(glob(expand('%:p:h')."/".file.".*"),'\n')
         if !empty(files)
@@ -115,6 +119,20 @@ nno <silent><C-W>s :sp\|call <SID>edit_file(0)<CR>
 nno <silent><C-W><C-V> :vsp\|call <SID>edit_file(0)<CR>
 nno <silent><C-W><C-S> :sp\|call <SID>edit_file(0)<CR>
 nno <silent><C-W><C-T> :tab sp\|call <SID>edit_file(0)<CR>
-nno <silent><C-W><C-F> :sp\|call <SID>edit_file(1)<CR>
+nno <silent><C-W><C-F> :sp\|call <SID>edit_file(1)<CR> 
 " Save
 nnoremap <c-s> :w<CR>
+
+" syntax dev tool (vim dev) 
+nma <silent><leader>1s :call <SID>synstack()<CR>
+function! s:synstack() 
+    if exists("*synstack")
+        for id in synstack(line("."), col("."))
+            echon " ".synIDattr(id, "name")
+            exe "echoh ".synIDattr(id, "name")
+            echon "[".synIDattr(synIDtrans(id), "name")."]"
+            echoh None
+        endfor
+    endif
+endfunc 
+

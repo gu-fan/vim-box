@@ -10,3 +10,11 @@ let g:user_emmet_removetag_key  = '<c-f>d'    "k
 
 Plug 'maksimr/vim-jsbeautify'
 
+
+" Plug 'scrooloose/syntastic'
+" let g:syntastic_javascript_checkers = ['jsxhint']
+" let g:jsx_ext_required = 0
+"
+" let g:syntastic_css_checkers = ['csslint']
+" " ignore the compressed file.
+" let g:syntastic_ignore_files = ['\.min\.js\|\.min\.css']
