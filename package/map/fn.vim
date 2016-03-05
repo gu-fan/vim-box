@@ -10,6 +10,7 @@ function! s:escape(p,mode) "{{{
     endif
     return escape(a:p,re_txt)
 endfunction "}}}
+
 function! s:substitute(s,mode) "{{{
     " get the substitute part
     let rs = a:s
@@ -46,9 +47,12 @@ nno <silent>  <F4> :call <SID>toggle_nerdfind()<CR>
 nno <silent> <F5> :call <SID>exe("n")<CR>
 vno <silent> <F5> :call <SID>exe("v")<CR>
 
+com! -nargs=0 Dir call <SID>file_man('')
+com! -nargs=0 Term call <SID>terminal()
+
 nor   <F7>   :GundoToggle<CR>
-nor   <F8>   :call <SID>file_man('')<CR>
-map   <silent><F9>   :call <SID>terminal()<CR>
+nor   <F8>   :Dir<CR>
+nor   <F9>   :Term<CR>
 
 function! s:toggle_nerdfind() "{{{
     if exists("t:nerdwin") && t:nerdwin==1
@@ -155,10 +159,11 @@ function! s:gcp() "{{{
 endfunction "}}}
 function! s:file_man(mode) "{{{
     if g:_v.is_windows
-        exec '!start explorer "%:p:h"'
+        sil exec '!start explorer "%:p:h"'
     elseif g:_v.is_mac  
-        exec "!open '%:p:h'"
-    else | exec "!".a:mode."nautilus '%:p:h' & "
+        sil exec "!open '%:p:h'"
+    else  
+        sil exec "!".a:mode."nautilus '%:p:h' & "
     endif
 endfunction "}}}
 function! s:terminal() "{{{

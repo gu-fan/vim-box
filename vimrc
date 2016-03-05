@@ -8,6 +8,7 @@ exe 'so <sfile>:p:h/' . 'lib/require.vim'
 Require lib/os
 Require lib/is
 Require mswin
+behave xterm        " fix mouse selection issue
 
 Require dev/miv
 
@@ -31,6 +32,7 @@ let g:vim_box_packages = [
             \'git',
             \'history',
             \'map',
+            \'runner',
             \'file']
 
 nnoremap [menu] <Nop>
@@ -62,9 +64,10 @@ call plug#begin('~/.vim/plugged')
 " Add plugins to &runtimepath
 Plug 'tomasr/molokai'
 
-" Plug 'sjl/gundo.vim'
+Plug 'sjl/gundo.vim'
 
 Plug 'fatih/vim-go'
+
 
 for package in g:vim_box_packages
     let package_path = $VIM_BOX. "/package/" . package . "/bundle.vimrc"
@@ -160,6 +163,8 @@ Plug 'rking/ag.vim'
 Plug 'vim-jp/vital.vim'
 Plug 'groenewege/vim-less'
 
+" Plug 'vim-scripts/mru.vim'
+
 " oh-my
 Plug 'rykka/colorv.vim'
 Plug 'rykka/galaxy.vim'
@@ -169,15 +174,18 @@ Plug 'rykka/lastbuf.vim'
 " Plug 'rykka/mathematic.vim'
 " Plug 'rykka/zendjango.vim'
 Plug 'rykka/trans.vim'
+Plug 'rykka/autotype.vim'
 " This api is much faster.
 let g:trans_default_api = 'youdao'
 let g:trans_map_trans = '<localleader>tt'
 
 Plug 'rykka/riv.vim'
 
-let proj1 = {'path': '~/Dropbox/Riv/'}
+let proj1 = {'path': '~/Dropbox/riv/'}
 let proj2 = {'path': '~/Dropbox/wiki/'}
 let proj3 = {'path': '~/test/sphinx/'}
+
+let g:riv_todo_datestamp = 0
 
 let g:riv_projects = [proj1, proj2, proj3]
 " XXX: This should be set as a project option.
@@ -190,6 +198,7 @@ Plug 'rykka/miv.vim'
 " Plug 'rykka/clickable-things'
 " Plug 'rykka/autotype.vim'
 Plug 'rykka/InstantRst'
+let g:instant_rst_forever = 1
 
 Plug 'Lokaltog/vim-easymotion'
 let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
@@ -220,7 +229,7 @@ let g:EasyMotion_use_smartsign_us = 1
 
 Plug 'bling/vim-airline'
 
-Plug 'vim-scripts/if_v8'
+" Plug 'vim-scripts/if_v8'
 
 " Plug 'sjl/gundo.vim'
 " Plug 'rykka/instant-uml.vim'
@@ -243,3 +252,5 @@ if !exists('s:loaded')
     filetype plugin indent on      " Indent and plugins by filetype
     syntax enable                  " enable the syntax highlight
 endif
+
+behave xterm        " fix mouse selection issue

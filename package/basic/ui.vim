@@ -1,4 +1,5 @@
 Debug 'ui'
+echoe 'ui'
 " PUT YOUR COLOR SCHEME HERE
 let galaxy_path = expand("~/.vim/plugged/galaxy.vim/colors/galaxy.vim")
 
@@ -13,9 +14,10 @@ let g:airline_powerline_fonts=1
 let g:airline#extensions#hunks#non_zero_only = 1
 
 
+	    echoe 20
 if !exists('s:ui_loaded')
     let s:ui_loaded = 1
-    if filereadable(galaxy_path) 
+    if filereadable(galaxy_path)
         colorscheme galaxy
         set t_Co=256                   " 256 colors for the terminal
     else
@@ -25,8 +27,11 @@ if !exists('s:ui_loaded')
 
     if g:_v.is_windows
         set guifont=Droid\ Sans\ Mono\ for\ Powerline:h12
-    else
-        set guifont=Droid\ Sans\ Mono\ for\ Powerline:h14
+    elseif g:_v.is_mac
+        set guifont=Droid\ Sans\ Mono\ Slashed\ for\ Powerline:h14
+    elseif g:_v.is_unix
+        set guifont=Droid\ Sans\ Mono\ Slashed\ for\ Powerline\ 14,Fixed\ 14
+        set guifontwide=Microsoft\ Yahei\ 14,WenQuanYi\ Zen\ Hei\ 14
     endif
     set lazyredraw                  " only redraws if it is needed
 

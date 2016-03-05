@@ -23,7 +23,7 @@ set smartindent                " indent on some case
 " }}}
 "
 if has('unnamedplus')
-    set clipboard=autoselectplus,html,unnamedplus,exclude:cons\|linux
+    set clipboard=autoselectplus,unnamedplus,exclude:cons\|linux
 else
     set clipboard=autoselect,unnamed
 endif
