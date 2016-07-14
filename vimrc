@@ -128,6 +128,8 @@ Plug 'mattn/webapi-vim'
 " Plug 'xolox/vim-session'
 Plug 'tpope/vim-obsession'
 
+Plug 'posva/vim-vue'
+
 let _p = expand('~/.vim/session')
 if !isdirectory(_p)
     call mkdir(_p, 'p')
@@ -181,13 +183,14 @@ let g:trans_map_trans = '<localleader>tt'
 
 Plug 'rykka/riv.vim'
 
-let proj1 = {'path': '~/Dropbox/riv/'}
-let proj2 = {'path': '~/Dropbox/wiki/'}
-let proj3 = {'path': '~/test/sphinx/'}
+let proj2 = {'path': '~/Dropbox/riv/'}
+let proj3 = {'path': '~/Dropbox/wiki/'}
+let proj1 = {'path': '~/Dropbox/wiki_new/'}
+let proj4 = {'path': '~/test/sphinx/'}
 
 let g:riv_todo_datestamp = 0
 
-let g:riv_projects = [proj1, proj2, proj3]
+let g:riv_projects = [proj1, proj2, proj3, proj4]
 " XXX: This should be set as a project option.
 let g:riv_file_link_style = 2
 

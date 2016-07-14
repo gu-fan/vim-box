@@ -79,3 +79,13 @@ endfunction
 
 com! -nargs=1 -bar Cdo :call s:_cdo(<q-args>, 'c')
 com! -nargs=1 -bar Ldo :call s:_cdo(<q-args>, 'l')
+
+com! -nargs=0 Restart :call s:restart()
+
+
+fun! s:restart()
+    Save
+    call system('gvim -c "Load"')
+    quitall
+
+endfun

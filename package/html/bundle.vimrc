@@ -14,6 +14,7 @@ Plug 'mxw/vim-jsx'
 let g:jsx_ext_required = 0
 Plug 'pangloss/vim-javascript'
 
+Plug 'mustache/vim-mustache-handlebars'
 
 " Plug 'scrooloose/syntastic'
 " let g:syntastic_javascript_checkers = ['jsxhint']
