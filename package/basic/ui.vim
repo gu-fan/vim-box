@@ -14,7 +14,6 @@ let g:airline_powerline_fonts=1
 let g:airline#extensions#hunks#non_zero_only = 1
 
 
-	    echoe 20
 if !exists('s:ui_loaded')
     let s:ui_loaded = 1
     if filereadable(galaxy_path)

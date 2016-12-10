@@ -1,16 +1,12 @@
 Plug 'benmills/vimux'
 
-nor <leader>rl :call VimuxRunCommandInDir(substitute(getline('.'),'^\s*\|\s*$','',"g"),0)<CR>
 
 fun! s:VisualRunner()
     norm! gv"vy
     call VimuxRunCommandInDir(@v, 0)
     call VimuxSendKeys('Enter')
 endfun
-vnor <leader>rl :call <SID>VisualRunner()<CR>
 
-map <Leader>rs :VimuxInterruptRunner<CR>
-map <Leader>rc :VimuxCloseRunner<CR>
 
 fun! s:PromptAndSend()
     let k = input('Prompt Vmux:')
@@ -28,7 +24,26 @@ fun! s:PromptAndSendSecret()
     endif
 endfun
 
-map <Leader>rk :call <SID>PromptAndSend()<CR>
-map <Leader>rp :call <SID>PromptAndSendSecret()<CR>
 
+com! -nargs=0 RunLine call VimuxRunCommandInDir(substitute(getline('.'),'^\s*\|\s*$','',"g"),0)
+com! -nargs=0 RunStop VimuxInterruptRunner
+com! -nargs=0 RunClose VimuxCloseRunner
+com! -nargs=0 RunSend call <SID>PromptAndSend()
+com! -nargs=0 RunSecrect call <SID>PromptAndSendSecret()
+com! -nargs=0 RunDir call VimuxRunCommand('cd '.expand('%:p:h'),1)
+
+" run
+nor <leader>rl :RunLine<CR>
+vnor <leader>rl :call <SID>VisualRunner()<CR>
+
+" stop
+map <Leader>ri :VimuxInterruptRunner<CR>
+map <Leader>rc :VimuxCloseRunner<CR>
+
+" open
+map <Leader>rd :RunDir<CR>
+
+" prompt words
+map <Leader>rp :RunSend<CR>
+map <Leader>rs :RunSecrect<CR>
 

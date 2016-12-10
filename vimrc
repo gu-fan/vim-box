@@ -1,5 +1,19 @@
 let g:debug = 0
 
+set ff=unix
+set ffs=unix,dos
+set encoding=utf-8
+set termencoding=utf-8
+set fileencoding=utf-8
+set fileencodings=ucs-bom,utf-8,chinese,cp936
+scriptencoding utf-8
+language messages zh_CN.utf-8
+
+
+let $VIM_BOX=expand("~/vim-box")
+
+
+
 " Basci Settings Without any Bundle
 exe 'so <sfile>:p:h/' . 'lib/debug.vim'
 exe 'so <sfile>:p:h/' . 'lib/require.vim'
@@ -10,7 +24,11 @@ Require lib/is
 Require mswin
 behave xterm        " fix mouse selection issue
 
+
+
 Require dev/miv
+
+let g:require_file_index = 1
 
 "Require dev/init
 "let path = expand('<sfile>:p')
@@ -69,6 +87,7 @@ Plug 'sjl/gundo.vim'
 Plug 'fatih/vim-go'
 
 
+
 for package in g:vim_box_packages
     let package_path = $VIM_BOX. "/package/" . package . "/bundle.vimrc"
     " if filereadable(package_path)
@@ -79,15 +98,15 @@ endfor
 " >> map/bundle.vimrc
 
 Plug 'Shougo/vimproc.vim'
-" Plug 'Shougo/vimshell.vim'
-" let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-" if has('win32') || has('win64')
-"     " Display user name on Windows.
-"     let g:vimshell_prompt = $USERNAME."% "
-" else
-"     " Display user name on Linux.
-"     let g:vimshell_prompt = $USER."% "
-" endif
+Plug 'Shougo/vimshell.vim'
+let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+if has('win32') || has('win64')
+    " Display user name on Windows.
+    let g:vimshell_prompt = $USERNAME."% "
+else
+    " Display user name on Linux.
+    let g:vimshell_prompt = $USER."% "
+endif
 " map <leader>rc :call <SID>cd_cur_dir()<CR>
 " map <leader>rr :call <SID>exec_cur_line()<CR>
 "
@@ -194,7 +213,10 @@ let g:riv_projects = [proj1, proj2, proj3, proj4]
 " XXX: This should be set as a project option.
 let g:riv_file_link_style = 2
 
-Plug 'rykka/miv.vim'
+Plug 'rykka/debug.vim'
+Plug 'rykka/require.vim'
+Plug 'rykka/siro.vim'
+
 " Plug 'rykka/os.vim'
 " Plug 'rykka/clickable.vim'
 " let g:clickable_browser = 'google chrome'
@@ -230,7 +252,7 @@ let g:EasyMotion_smartcase = 1
 " Smartsign (type `3` and match `3`&`#`)
 let g:EasyMotion_use_smartsign_us = 1
 
-Plug 'bling/vim-airline'
+" Plug 'bling/vim-airline'
 
 " Plug 'vim-scripts/if_v8'
 

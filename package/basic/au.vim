@@ -46,6 +46,7 @@ aug au_Filetypes "{{{
     au BufRead,BufNewFile *.mako    setf mako
     au BufRead,BufNewFile *.conf    setf conf
     au BufRead,BufNewFile tmux.conf setf tmux
+    au BufRead,BufNewFile *.hbs setf mustache
     au FileType c,cpp    setl fdm=syntax
     au FileType jass     setl wrap fdm=syntax
     au FileType jass     nor <buffer> gD :call <SID>jass_goDef()<CR>

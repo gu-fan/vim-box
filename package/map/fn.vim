@@ -22,13 +22,20 @@ function! s:substitute(s,mode) "{{{
     return 's/'.ss."/".s:escape(rs,"r")."/gc"
 endfunction "}}}
 
+augroup help
+    autocmd!
+    au BufRead,BufNewFile *.vim set kp=
+    au FileType vim set kp=
+    au FileType bash set kp=man
+augroup END
+
 nor   <F1>     K
 nno   <s-F2> :%<C-R>=<SID>substitute(@/,"\x00")<CR><Left><Left><Left>
 vno   <s-F2> :<C-R>=<SID>substitute(@/,"\x00")<CR><Left><Left><Left>
 nno   <F2>   :%<C-R>=<SID>substitute(expand('<cword>'),"b")<CR><Left><Left><Left>
 vno   <F2>   :<C-R>=<SID>substitute(expand('<cword>'),"b")<CR><Left><Left><Left>
 " TODO: use c_Ctrl-\_e to finish this.
-" XXX 
+" XXX
 " % can not be used.
 " nno   <s-F1> :%<C-\>e<SID>sub2(expand('<cword>'),"\x00")<CR>
 
@@ -97,7 +104,7 @@ function! s:exe(mode) "{{{
         if    syn=="python"
             let    L=getline(1)
             if     L=~'python3' | exec "!python3 -d ".file.err_log
-            elsei  L=~'pyfile'  
+            elsei  L=~'pyfile'
                 if has("python")
                     pyfile %
                 else
@@ -149,7 +156,7 @@ function! s:gcp() "{{{
         endif
     endfor
     let lib=''
-    if lf =~ 'g' 
+    if lf =~ 'g'
         let lib .=' `pkg-config --cflags --libs gtk+-2.0` '
     endif
     if lf =~ 'm'
@@ -160,9 +167,9 @@ endfunction "}}}
 function! s:file_man(mode) "{{{
     if g:_v.is_windows
         sil exec '!start explorer "%:p:h"'
-    elseif g:_v.is_mac  
+    elseif g:_v.is_mac
         sil exec "!open '%:p:h'"
-    else  
+    else
         sil exec "!".a:mode."nautilus '%:p:h' & "
     endif
 endfunction "}}}

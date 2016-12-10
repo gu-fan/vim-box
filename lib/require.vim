@@ -19,7 +19,7 @@
 " NOTE: the '%:p' in require.vim script's function
 " will be the require.vim's path. so we pass a <sfile> in.
 "
-" TODO
+" DONE:
 " source file of dirs with following sequence.
 "   relative dir
 "   relative dir and it's all parent's modules/ directory: if got one.

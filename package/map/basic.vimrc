@@ -6,7 +6,7 @@ Require search
 
 Require mswin
 
-nmap <leader>vv :e ~/Dropbox/vim-box/vimrc<CR>
+nmap <leader>vv :e $VIM_BOX/vimrc<CR>
 
 " with input method "{{{ 1
 se imd
@@ -29,6 +29,10 @@ nno <silent><leader>dd :exec &diff ? 'diffoff' : 'diffthis'<CR>
 
 " Clear screen
 nno   <silent>   <c-l>   :let @/=''\|redraw!<CR>
+
+if &term == "xterm"
+    nno <c-r>  <c-v>
+endif
 
 " Moving
 nno   H   h
@@ -116,7 +120,7 @@ fun! s:edit_file(ask)
 endfun 
 nno <silent><C-W>v :vsp\|call <SID>edit_file(0)<CR>
 nno <silent><C-W>s :sp\|call <SID>edit_file(0)<CR>
-nno <silent><C-W><C-V> :vsp\|call <SID>edit_file(0)<CR>
+nno <silent><C-W><C-V> :on\|vsp\|call <SID>edit_file(0)<CR>
 nno <silent><C-W><C-S> :sp\|call <SID>edit_file(0)<CR>
 nno <silent><C-W><C-T> :tab sp\|call <SID>edit_file(0)<CR>
 nno <silent><C-W><C-F> :sp\|call <SID>edit_file(1)<CR> 
