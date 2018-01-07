@@ -10,6 +10,30 @@ function! s:escape(p,mode) "{{{
     endif
     return escape(a:p,re_txt)
 endfunction "}}}
+function! s:p(p,mode) "{{{
+    if a:mode =~ "s"
+        let re_txt =  ''
+    elseif a:mode =~ "e"
+        let re_txt =  '*[]/~.$\'
+    elseif a:mode =~ "r"
+        let re_txt =  '&'
+    endif
+    return escape(a:p,re_txt)
+endfunction "}}}
+function! s:r() "{{{
+    normal gv"yy
+    let w = @y
+    return w
+endfunction "}}}
+function! s:w(s,mode) "{{{
+    let rs = a:s
+    if a:mode =~ "b"
+        let ss = "\\<".s:p(a:s,"s")."\\>"
+    else
+        let ss = s:p(a:s,"s")
+    endif
+    return 's/'.ss."/".s:p(rs,"r")."/gc"
+endfunction "}}}
 
 function! s:substitute(s,mode) "{{{
     " get the substitute part
@@ -21,6 +45,12 @@ function! s:substitute(s,mode) "{{{
     endif
     return 's/'.ss."/".s:escape(rs,"r")."/gc"
 endfunction "}}}
+vno   /    <ESC>/<C-\>e<SID>p(<SID>r(),"e")<CR>
+vno   ?    <ESC>?<C-\>e<SID>p(<SID>r(),"e")<CR>
+vno   #    <ESC>/<C-\>e<SID>p(<SID>r(),"e")<CR><CR><C-G>
+vno   *    <ESC>?<C-\>e<SID>p(<SID>r(),"e")<CR><CR><C-G>
+vno   n    <ESC>/<C-\>e<SID>p(<SID>r(),"e")<CR><CR><C-G>
+vno   N    <ESC>?<C-\>e<SID>p(<SID>r(),"e")<CR><CR><C-G>
 
 augroup help
     autocmd!
@@ -29,11 +59,16 @@ augroup help
     au FileType bash set kp=man
 augroup END
 
-nor   <F1>     K
-nno   <s-F2> :%<C-R>=<SID>substitute(@/,"\x00")<CR><Left><Left><Left>
-vno   <s-F2> :<C-R>=<SID>substitute(@/,"\x00")<CR><Left><Left><Left>
-nno   <F2>   :%<C-R>=<SID>substitute(expand('<cword>'),"b")<CR><Left><Left><Left>
-vno   <F2>   :<C-R>=<SID>substitute(expand('<cword>'),"b")<CR><Left><Left><Left>
+nor   <F1>   K
+" nno   <s-F2> :%<C-R>=<SID>substitute(@/,"\x00")<CR><Left><Left><Left>
+" vno   <s-F2> :<C-R>=<SID>substitute(@/,"\x00")<CR><Left><Left><Left>
+" nno   <F2>   :%<C-R>=<SID>substitute(expand('<cword>'),"b")<CR><Left><Left><Left>
+" vno   <F2>   :<C-R>=<SID>substitute(expand('<cword>'),"b")<CR><Left><Left><Left>
+nno   <F2>     :%<C-R>=<SID>w(@/,"\x00")<CR><Left><Left><Left>
+vno   <F2>     :<C-R>=<SID>w(@/,"\x00")<CR><Left><Left><Left>
+nno   <S-F2>   :%<C-R>=<SID>w(expand('<cword>'),"b")<CR><Left><Left><Left>
+vno   <S-F2>   :<C-R>=<SID>w(expand('<cword>'),"b")<CR><Left><Left><Left>
+
 " TODO: use c_Ctrl-\_e to finish this.
 " XXX
 " % can not be used.
@@ -44,10 +79,10 @@ imap  <F3>   <C-O>:set nopaste<CR>
 
 "{{{3 F3 Ack-grep http://better-than-grep.com
 " exists ag or grep
-nor   <F3>     :Ag <C-R><C-F> %<CR>
-vno   <F3>     y:Ag <C-R>" %<CR>
-nor   <S-F3>   :Ag <C-R><C-F><CR>
-vno   <S-F3>   y:Ag <C-R>"<CR>
+nor   <S-F3>     :Ag <C-R><C-F> %<CR>
+vno   <S-F3>     y:Ag <C-R>" %<CR>
+nor   <F3>   :Ag <C-R><C-F><CR>
+vno   <F3>   y:Ag <C-R>"<CR>
 
 "{{{3 F4 Folder
 nno <silent>  <F4> :call <SID>toggle_nerdfind()<CR>

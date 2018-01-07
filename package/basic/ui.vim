@@ -25,7 +25,8 @@ if !exists('s:ui_loaded')
     endif
 
     if g:_v.is_windows
-        set guifont=Droid\ Sans\ Mono\ for\ Powerline:h12
+        " set guifont=Droid\ Sans\ Mono\ for\ Powerline:h12
+        set guifont=Microsoft\ Yahei\ Mono:h14
     elseif g:_v.is_mac
         set guifont=Droid\ Sans\ Mono\ Slashed\ for\ Powerline:h14
     elseif g:_v.is_unix
@@ -37,6 +38,7 @@ if !exists('s:ui_loaded')
     set ls=2                        " status line always visible
     set go-=T                       " hide the toolbar
     set go-=m                       " hide the menu
+    set go-=e                       " hide the gui tab
     " The next two lines are quite tricky, but in Gvim, if you don't do this, if you
     " only hide all the scrollbars, the vertical scrollbar is showed anyway
     set go+=rlRLbh                  " show all the scrollbars

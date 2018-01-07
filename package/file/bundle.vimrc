@@ -5,9 +5,13 @@ let g:NERDTreeQuitOnOpen=1
 let g:NERDTreeShowHidden=1
 let g:NERDTreeShowBookmarks = 0
 let g:NERDTreeWinPos = 'right'
+let NERDTreeIgnore=['\~$', '.meta$[[file]]']
 
 Plug 'kien/ctrlp.vim'
 nmap <C-J>  :CtrlPLine<CR>
+let g:ctrlp_custom_ignore =  {
+    \ 'dir':  '\v[\/](\.(git|hg|svn)|node_modules)$'
+    \ }
 
 fun! V(...)
     CtrlPMRU

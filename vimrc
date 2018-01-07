@@ -11,7 +11,7 @@ language messages zh_CN.utf-8
 
 
 let $VIM_BOX=expand("~/vim-box")
-
+let $VIM_BOXRC= $VIM_BOX . '/vimrc'
 
 
 " Basci Settings Without any Bundle
@@ -19,13 +19,17 @@ exe 'so <sfile>:p:h/' . 'lib/debug.vim'
 exe 'so <sfile>:p:h/' . 'lib/require.vim'
 
 " exe 'so <sfile>:p:h\' . 'lib\os.vim'
+
 Require lib/os
 Require lib/is
 Require mswin
 behave xterm        " fix mouse selection issue
 
+if _v.is_windows
+    set ffs=dos
+endif
 
-
+" DEV WORK
 Require dev/miv
 
 let g:require_file_index = 1
@@ -51,7 +55,9 @@ let g:vim_box_packages = [
             \'history',
             \'map',
             \'runner',
-            \'file']
+            \'unity',
+            \'file'
+            \]
 
 nnoremap [menu] <Nop>
 map <LocalLeader> [menu]
@@ -144,10 +150,11 @@ Plug 'mattn/webapi-vim'
 
 " Plug 'vimwiki'
 " Plug 'xolox/vim-misc'
+"
+
+" Session Management "{{{
 " Plug 'xolox/vim-session'
 Plug 'tpope/vim-obsession'
-
-Plug 'posva/vim-vue'
 
 let _p = expand('~/.vim/session')
 if !isdirectory(_p)
@@ -158,6 +165,9 @@ set ssop=blank,curdir,help,options,resize,tabpages,winpos,winsize
 
 command! -nargs=? Save call s:save_session(<q-args>)
 command! -nargs=? Load call s:load_session(<q-args>)
+
+nnore  <A-0> :Save<CR>
+nnore  <A-5> :Load<CR>
 
 fun! s:save_session(ses)
     if a:ses
@@ -173,6 +183,8 @@ fun! s:load_session(ses)
         so ~/.vim/session/default.vim
     endif
 endfun
+"}}}
+Plug 'posva/vim-vue'
 
 " deploy
 " Plug 'Puppet-Syntax-Highlighting'
@@ -252,6 +264,7 @@ let g:EasyMotion_smartcase = 1
 " Smartsign (type `3` and match `3`&`#`)
 let g:EasyMotion_use_smartsign_us = 1
 
+Plug 'chemzqm/wxapp.vim'
 " Plug 'bling/vim-airline'
 
 " Plug 'vim-scripts/if_v8'
@@ -278,4 +291,7 @@ if !exists('s:loaded')
     syntax enable                  " enable the syntax highlight
 endif
 
+
+
 behave xterm        " fix mouse selection issue
+set noimd           " I want to use IME

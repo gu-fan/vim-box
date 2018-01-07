@@ -64,6 +64,23 @@ let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
 let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 "}}}
 
+
+
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+"
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#enable_yarp = 1
+"
+
+
+
+
 " neocompl cache snippets_complete
 " nmap <c-k> a<c-k><esc>
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -83,7 +100,7 @@ ino <expr><s-TAB> pumvisible() ? "\<C-p>" : "\<s-TAB>"
 
 " For snippet_complete marker.
 if has('conceal')
-    set conceallevel=2 concealcursor=i
+    set conceallevel=0 concealcursor=i
 endif
 let g:neosnippet#snippets_directory = "~/Dropbox/vim/my_snips/snippets_complete/"
 
@@ -96,7 +113,9 @@ map <leader>s_ :sp\|e ~/Dropbox/vim/my_snips/snippets_complete/_.snip <cr>
 
 Plug 'tomtom/tcomment_vim'
 let g:tcommentMapLeaderOp1 = '<leader>c'
-
+nnoremap <c-/> :TComment<cr>
+let g:tcommentGuessFileType = 0
+let g:tcommentGuessFileType_vue = 'html'
 Plug 'tpope/vim-surround'
 " Plug 'tpope/vim-repeat'
 " Plug 'tpope/vim-abolish'

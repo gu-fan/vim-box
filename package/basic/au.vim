@@ -19,6 +19,8 @@ aug END
 "}}}
 aug au_Vimrc "{{{
     au!
+    autocmd! BufWritePost vimrc source %
+    autocmd! BufWritePost *.vimrc source $VIM_BOXRC
     " au SourcePre ~/Dropbox/dotfiles/.vimrc redraw | echohl WarningMsg
     "             \|echom "Reloading .vimrc"|echohl Normal
     " au BufWritePre,FileWritePre ~/Dropbox/dotfiles/.vimrc  LastUpdate
@@ -51,9 +53,11 @@ aug au_Filetypes "{{{
     au FileType jass     setl wrap fdm=syntax
     au FileType jass     nor <buffer> gD :call <SID>jass_goDef()<CR>
     au FileType javascript call <SID>js_fold()
+    au FileType javascript setl sw=2
     au FileType python map <buffer> <F1> :Pydoc <C-R><C-W><CR>
     au FileType python map <buffer> K k
     au FileType python setl wrap foldtext=MyFoldText()
+    au BufRead,BufNewFile *.edge setf html
     " au FileType python  call <SID>py_aug()
     au FileType python  setl fdm=indent
     " au FileType javascript setl fdm=syntax
@@ -69,6 +73,7 @@ aug au_Filetypes "{{{
     " au FileType rst syn spell toplevel
     "
     au FileType javascript cal <SID>set_path()
+    au FileType cs setl fdm=syntax
 aug END "}}}
 
 aug au_Dev "{{{
@@ -116,8 +121,6 @@ endfunction "}}}
 au VimResized * exe "normal! \<c-w>="
 
 
-autocmd! BufWritePost vimrc source %
-autocmd! BufWritePost *.vimrc source ~/.vimrc
 
 " Execution permissions by default to shebang (#!) files {{{
 

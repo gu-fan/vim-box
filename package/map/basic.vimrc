@@ -80,6 +80,10 @@ nno <silent><C-W>1 :resize<cr>
 nno <silent><C-W>2 :vert resize<cr>
 nno <silent><C-W>3 <C-W>=
 
+
+nno <silent><A-1>  :if &go=~#'m' \| set go-=m \| else \| set go+=m \| endif<CR>
+nno <silent><A-2>  :if &go=~#'e' \| set go-=e \| else \| set go+=e \| endif<CR>
+
 nno <C-W>n <C-W>w
 nno <C-W>N <C-W>n
 " smarter opening files. 
@@ -140,5 +144,6 @@ function! s:synstack()
     endif
 endfunc 
 
+nma <silent><leader>syn :exec "edit $VIMRUNTIME/syntax/" .b:current_syntax. ".vim"<CR>
 
 
