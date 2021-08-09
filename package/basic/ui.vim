@@ -26,7 +26,9 @@ if !exists('s:ui_loaded')
 
     if g:_v.is_windows
         " set guifont=Droid\ Sans\ Mono\ for\ Powerline:h12
-        set guifont=Microsoft\ Yahei\ Mono:h14
+        " set guifont=Microsoft\ Yahei\ Mono:h14
+        set guifont=Lucida\ console:h12
+        set guifontwide=黑体:h12
     elseif g:_v.is_mac
         set guifont=Droid\ Sans\ Mono\ Slashed\ for\ Powerline:h14
     elseif g:_v.is_unix

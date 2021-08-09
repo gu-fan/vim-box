@@ -6,8 +6,6 @@ Require search
 
 Require mswin
 
-nmap <leader>vv :e $VIM_BOX/vimrc<CR>
-
 " with input method "{{{ 1
 se imd
 se ims=1
